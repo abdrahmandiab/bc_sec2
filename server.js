@@ -1,9 +1,11 @@
 const express = require('express');
-
+const cors = require("cors");
 const app = express();
-app.get('/', (req, res)=> res.json({msg: 'Welcome to Shiphaly task API...'}));
+app.use(express.json())
+app.use(cors());
+app.get('/', (req, res)=> res.json({msg: 'Welcome to Security App...'}));
 
-app.use('/api/countries', require('./routes/countries'));
+app.use('/api/utils', require('./routes/route'));
 
 // if (process.env.NODE_ENV === "production") {
 //     // Set static folder
