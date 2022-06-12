@@ -54,7 +54,7 @@ router.post('/decrypt', async (req,res)=>{
         const decrypted=await CryptoJS.AES.decrypt(data,aesPass).toString(CryptoJS.enc.Utf8)
         
         console.log(decrypted.toString())
-        return res.json(decrypted.toString())
+        return res.json({"decrypted":decrypted.toString()})
     }
     catch(err){
         console.error(err.message);
