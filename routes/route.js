@@ -19,13 +19,13 @@ router.post('/encrypt', async (req,res)=>{
             }
         }
         if (aesPass ==""){
-           return res.send('Unauthorized!')
+           return res.json('Unauthorized!')
         }
         console.log("aesPass: "+aesPass)
 
         const encrypted = await CryptoJS.AES.encrypt(data, aesPass);
         console.log(encrypted.toString())
-        return res.send(encrypted.toString())
+        return res.json({"encrypted" : encrypted.toString()})
     }
     catch(err){
         console.error(err);
@@ -48,13 +48,13 @@ router.post('/decrypt', async (req,res)=>{
             }
         }
         if (aesPass ==""){
-           return res.send('Unauthorized!')
+           return res.json('Unauthorized!')
         }
         console.log("aes: "+ aesPass)
         const decrypted=await CryptoJS.AES.decrypt(data,aesPass).toString(CryptoJS.enc.Utf8)
         
         console.log(decrypted.toString())
-        return res.send(decrypted.toString())
+        return res.json(decrypted.toString())
     }
     catch(err){
         console.error(err.message);
