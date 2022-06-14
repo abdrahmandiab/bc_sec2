@@ -100,6 +100,32 @@ export const abi = [
   },
   {
     "constant": true,
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "patientRecordsPerHospital",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
     "inputs": [],
     "name": "visitCount",
     "outputs": [
@@ -114,8 +140,60 @@ export const abi = [
     "type": "function"
   },
   {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "visitRecordsPerHospital",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "idx",
+        "type": "uint256"
+      }
+    ],
+    "name": "getPatientById",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "constant": false,
     "inputs": [
+      {
+        "internalType": "string",
+        "name": "hospAddress",
+        "type": "string"
+      },
       {
         "internalType": "string",
         "name": "_patientEnc",
@@ -136,6 +214,11 @@ export const abi = [
   {
     "constant": false,
     "inputs": [
+      {
+        "internalType": "string",
+        "name": "hospAddress",
+        "type": "string"
+      },
       {
         "internalType": "string",
         "name": "_visitHash",

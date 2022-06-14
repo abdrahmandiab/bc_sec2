@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, {Component, useEffect, useState } from "react";
 import { ethers } from "ethers";
 import axios from "axios";
 import Web3 from "web3/dist/web3.min";
 import { abi } from "../../abitwo.js";
+import { settings } from '../../settings'
 
-const contractAddr = "0xFFe2F8dB501cA43275c18301935a295481796518";
+const contractAddr = settings;
 // const metamaskAddr = "0xc2983aBAb0FFCFBe35a449bf9448b51B9d2c5035";
 
 
@@ -19,14 +20,7 @@ function AddPatient() {
   const [weight, setWeight] = useState("");
   const [oxygen, setOxygen] = useState("");
 
-  const verifyMessage = async (data, signature, address) => {
-    try {
-      const signerAddress = await ethers.utils.verifyMessage(data, signature);
-      return signerAddress === address;
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
 
   const signData = async (data) => {
     try {
@@ -71,16 +65,11 @@ function AddPatient() {
     const num_patients = await contractman.methods.patientCount().call(); // FOR READING
     // console.log("encrypted data: " + encrypted.toString());
     // console.log("signed data: " + signed);
-    await contractman.methods.addPatient(encrypted,signed).send({from: address}); //FOR WRITING
+    await contractman.methods.addPatient(address,encrypted,signed).send({from: address}); //FOR WRITING
     console.log("Patient added!");
     console.log("Patients after: " + num_patients);
 
-    const decrypt = await axios.post('http://localhost:5000/api/utils/decrypt', {
-      user: username,
-      password: password,
-      data: encrypted // This is the body part
-    }).then((response) =>{return response.data.decrypted})
-    console.log("decrypted data:"+decrypt)
+    
     // const decrypted=await window.CryptoJS.AES.decrypt(encrypted,aesPassword).toString(window.CryptoJS.enc.Utf8)
     // const js=JSON.parse(decrypted)
     // console.log(js)

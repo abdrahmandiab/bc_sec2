@@ -1,0 +1,1 @@
+export const settings = "0x0ac952B0dF2DFa711020d9d83c0150eeC75715d9"

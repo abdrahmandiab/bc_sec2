@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+
+
 const Navbar = ({ title, icon }) => {
   return (
     <div className='navbar bg-primary'>
@@ -9,7 +11,7 @@ const Navbar = ({ title, icon }) => {
       </h1>
       <ul>
         <li>
-          <Link to='/'>Home</Link>
+          <Link to='/'>View Patient</Link>
         </li>
         <li>
           <Link to='/addpatient'>Add Patient</Link>
@@ -28,6 +30,6 @@ Navbar.propTypes = {
 };
 Navbar.defaultProps = {
   title: 'EHR Portal',
-  icon: 'fa-solid fa-file-medical',
+  icon: "fas fa-globe-europe"
 };
 export default Navbar;
