@@ -14,6 +14,7 @@ function ViewVisits(){
     const [myAddr, setMyAddr] = useState("")
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [patid, setPatid] = useState("");
     const [showList, setShowList] = useState(false);
     const [myVisitos, setMyVisitos] = useState("")
     const [visitList, setVisits] = useState([]);
@@ -39,13 +40,26 @@ function ViewVisits(){
         const num_visits = await contractman.methods.visitCount().call(); // FOR READING
         console.log("numnum: " + num_visits)
         console.log("addr: "+myAddr)
-       
-        const myVis = await contractman.methods.getMyVisits(myAddr).call()
+        var myVis =[]
+        setVisitsDec([])
+        setVisits([])
+        if(patid==""){
+          myVis = await contractman.methods.getMyVisits(myAddr).call()
+        }else{
+          let id = 0
+          try{
+            id = parseInt(patid)
+          }
+          catch(err){
+            console.log(err)
+          }
+          myVis = await contractman.methods.getPatientVisits(myAddr,id ).call()
+        }
         setMyVisitos(myVis)
         console.log("myVis:"+ myVis)
         console.log("myVisitos: "+ myVisitos)
         console.log("number of visits: " + num_visits)
-        for (let i=1; i<=num_visits; i=i+1){
+        for (let i=1; i<=myVisitos.length; i=i+1){
           // console.log(i)
             const visit = await contractman.methods.getVisitById(myVisitos[i-1]).call();
             // console.log(visit)
@@ -117,6 +131,15 @@ function ViewVisits(){
                     name="password"
                     value={password}
                     onChange={(value) => setPassword(value.target.value)}
+                />
+                </div>
+                <div className="mb-3">
+                <label className="form-label">Patient id (optional):</label>
+                <input
+                    className="form-control"
+                    name="patid"
+                    value={patid}
+                    onChange={(value) => setPatid(value.target.value)}
                 />
                 </div>
             </form>

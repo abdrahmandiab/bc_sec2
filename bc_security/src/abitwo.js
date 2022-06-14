@@ -71,12 +71,75 @@ export const abi = [
         "type": "uint256"
       }
     ],
+    "name": "VisToPrevVis",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "name": "Visits_sig",
     "outputs": [
       {
         "internalType": "string",
         "name": "",
         "type": "string"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "isFirstVisOfPatient",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "patPrevVis",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "payable": false,
@@ -292,6 +355,74 @@ export const abi = [
     "type": "function"
   },
   {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "bytes",
+        "name": "addr",
+        "type": "bytes"
+      },
+      {
+        "internalType": "uint256",
+        "name": "patidx",
+        "type": "uint256"
+      }
+    ],
+    "name": "getPatientVisits",
+    "outputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "ids",
+        "type": "uint256[]"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "idx",
+        "type": "uint256"
+      }
+    ],
+    "name": "VisPointsToPatient",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "idx",
+        "type": "uint256"
+      }
+    ],
+    "name": "getPrevVisitById",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "constant": false,
     "inputs": [
       {
@@ -320,6 +451,11 @@ export const abi = [
     "constant": false,
     "inputs": [
       {
+        "internalType": "uint256",
+        "name": "patid",
+        "type": "uint256"
+      },
+      {
         "internalType": "bytes",
         "name": "hospAddress",
         "type": "bytes"
@@ -336,6 +472,61 @@ export const abi = [
       }
     ],
     "name": "addVisit",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "bytes",
+        "name": "hospAddress",
+        "type": "bytes"
+      },
+      {
+        "internalType": "string",
+        "name": "_visitHash",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_visitSig",
+        "type": "string"
+      }
+    ],
+    "name": "addVisitOld",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "patid",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes",
+        "name": "hospAddress",
+        "type": "bytes"
+      },
+      {
+        "internalType": "string",
+        "name": "_visitHash",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_visitSig",
+        "type": "string"
+      }
+    ],
+    "name": "addVisit2",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",

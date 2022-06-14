@@ -11,8 +11,9 @@ pragma solidity ^0.5.16;
 
 contract EHR {
     mapping(bytes => uint256[]) public patientRecordsPerHospital;
+
     mapping(bytes => uint256[]) public visitRecordsPerHospital;
-    mapping(uint256 => uint256[]) public visitRecordsPerPatient;
+    mapping(bytes => mapping(uint256 => uint256[])) visitRecordsPerPatientPerHospital;
     mapping(uint256 => string) public Enc_Visits;
     mapping(uint256 => string) public Visits_sig;
     mapping(uint256 => string) public Enc_Patients; // 1 -> akshdasyhdkuasygdousaydo8uasdouashdousahdousahduoashdw890asu
@@ -25,10 +26,12 @@ contract EHR {
     uint256 public visitCount;
     uint256 public patientCount;
 
+    // To get a specific patient
     function getPatientById(uint256 idx) public view returns (string memory) {
         return Enc_Patients[idx];
     }
 
+    // To get a specific patient's signature
     function getPatientSigById(uint256 idx)
         public
         view
@@ -37,6 +40,7 @@ contract EHR {
         return Patients_sig[idx];
     }
 
+    // To get patients added by my hospital
     function getMyPatients(bytes memory addr)
         public
         view
@@ -45,20 +49,32 @@ contract EHR {
         return patientRecordsPerHospital[addr];
     }
 
+    // To get a specific visit
     function getVisitById(uint256 idx) public view returns (string memory) {
         return Enc_Visits[idx];
     }
 
+    // To get a specific visit's signature
     function getVisitSigById(uint256 idx) public view returns (string memory) {
         return Visits_sig[idx];
     }
 
+    // To get visits added by my hospital
     function getMyVisits(bytes memory addr)
         public
         view
         returns (uint256[] memory ids)
     {
-        return patientRecordsPerHospital[addr];
+        return visitRecordsPerHospital[addr];
+    }
+
+    // Get visits add by my hopsital of a specific patient
+    function getPatientVisits(bytes memory addr, uint256 patidx)
+        public
+        view
+        returns (uint256[] memory ids)
+    {
+        return visitRecordsPerPatientPerHospital[addr][patidx];
     }
 
     function VisPointsToPatient(uint256 idx) public view returns (bool) {
@@ -88,13 +104,13 @@ contract EHR {
         string memory _visitSig
     ) public {
         visitCount++;
-        visitRecordsPerPatient[patid].push(visitCount);
+        visitRecordsPerPatientPerHospital[hospAddress][patid].push(visitCount);
         visitRecordsPerHospital[hospAddress].push(visitCount);
         Enc_Visits[visitCount] = _visitHash;
         Visits_sig[visitCount] = _visitSig;
     }
 
-    function addVisit1(
+    function addVisitOld(
         bytes memory hospAddress,
         string memory _visitHash,
         string memory _visitSig
