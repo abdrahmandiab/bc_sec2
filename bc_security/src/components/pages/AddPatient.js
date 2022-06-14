@@ -65,6 +65,7 @@ function AddPatient() {
     const num_patients = await contractman.methods.patientCount().call(); // FOR READING
     // console.log("encrypted data: " + encrypted.toString());
     // console.log("signed data: " + signed);
+    console.log('address under: '+ address.toLowerCase())
     await contractman.methods.addPatient(address,encrypted,signed).send({from: address}); //FOR WRITING
     console.log("Patient added!");
     console.log("Patients after: " + num_patients);
@@ -79,7 +80,7 @@ function AddPatient() {
     <div className="Container">
       <div>
         <div>
-          <h1> Add new patient</h1>
+          <h1> Add patient</h1>
           <form>
           <div className="mb-3">
               <label className="form-label">Hospital ID:</label>

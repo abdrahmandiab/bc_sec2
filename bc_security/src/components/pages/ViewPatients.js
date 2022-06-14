@@ -1,4 +1,4 @@
-import React, {  useState } from "react"; //useEffect,
+import React, { useEffect , useState } from "react"; //useEffect,
 import { ethers } from "ethers";
 import axios from "axios";
 import Web3 from "web3/dist/web3.min";
@@ -10,50 +10,61 @@ import PatientCard from "./components/PatientCard.js";
 const contractAddr = settings;
 
 function ViewPatients(){
-    const verifyMessage = async (data, signature, address) => {
-        try {
-          const signerAddress = await ethers.utils.verifyMessage(data, signature);
-          return signerAddress === address;
-        } catch (error) {
-          console.log(error);
-        }
-    };
-
+    
+    const [myAddr, setMyAddr] = useState("")
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showList, setShowList] = useState(false);
+    const [myPats, setMyPats] = useState("")
     const [patientList, setPatients] = useState([]);
     const [patientListDec, setPatientsDec] = useState([]); 
-    const [patient1, setPatient1] = useState("");
-    const [showAddVisit, setAddVisit] = useState(false);
+    const [showAddVisitForm, setAddVisitForm] = useState([]);
     const[loading, setLoading] = useState(false);
-    
+    // const verifyMessage = async (data, signature, address) => {
+    //     try {
+    //       const signerAddress = await ethers.utils.verifyMessage(data, signature);
+    //       return signerAddress === address;
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    //   };
+
+
+    useEffect( () => {
+        async function getAcc(){
+        if (!window.ethereum) {console.log("INSTALL ETHEREUM")};
+        const accounts = await window.ethereum.request({method: "eth_requestAccounts"});
+        setMyAddr(accounts[0])
+        }
+        getAcc();
+        
+        console.log("address: "+ myAddr)
+      },[myAddr]);
+      
     const onLogin = async () => {
         setLoading(true)
-        const w3 = new Web3(Web3.givenProvider || "http://localhost:7545"); //
+        const w3 = new Web3(Web3.givenProvider || "http://localhost:7545");
         const contractman = new w3.eth.Contract(abi, contractAddr);
         const num_patients = await contractman.methods.patientCount().call(); // FOR READING
+        console.log(num_patients)
+        console.log(myAddr)
+       
+        const myPatties = await contractman.methods.getMyPatients(myAddr).call()
+        setMyPats(myPatties)
+        console.log("myPats: "+ myPats)
         console.log("number of patients: " + num_patients)
-        for (let i=1; i<=(num_patients); i=i+1){
-            console.log("patList: "+patientList.length)
-            const patient = await contractman.methods.getPatientById(i).call();
+        for (let i=1; i<=myPats.length; i=i+1){
+            const patient = await contractman.methods.getPatientById(myPats[i-1]).call();
             console.log(patient)
             if(!patientList.includes(patient)){
-            await setPatients(oldarray =>  [...oldarray,patient])}
+            await setPatients(oldarray =>  [...oldarray, patient])}
         }
-        // const patient = await contractman.methods.getPatientById(1).call();
-        // console.log(patient)
-        // setPatient1(patient)
-        // console.log("1:"+patient1)
-        // setShowList(true)
 
-        console.log("patient list Encrypted: "+ patientList)
-
+        console.log("patList length: "+patientList.length)
         //DECRYPT
         const json = {
             enc_data : patientList
         }
-        console.log("json: "+ json.enc_data.length);
         const pack = JSON.stringify(json);
         console.log("pack: "+ pack)
 
@@ -63,7 +74,26 @@ function ViewPatients(){
         data: pack 
         }).then((response) =>{return response.data.decrypted})
         // console.log("decrypted data:"+ JSON.parse(decrypt[0]).age)
-        setPatientsDec(decrypt)
+        const  lis= []
+        const lis2 = []
+        for (let i=1; i<=myPats.length; i=i+1){
+            // if(!patientListDec.includes({data: decrypt[i-1], patid: myPats[i-1]})){
+            // console.log("i:"+i)
+            // console.log(JSON.parse(decrypt[i-1]))
+            // console.log(myPats[i-1])
+            
+            if(!lis.includes({data: JSON.parse(decrypt[i-1]), patid: myPats[i-1]})){
+            lis.push({data: JSON.parse(decrypt[i-1]), patid: myPats[i-1]}) 
+            lis2.push(false)}
+
+            else{
+                console.log("else:"+  JSON.parse(decrypt[i-1])+  myPats[i-1])
+            }
+        }
+
+        setPatientsDec(lis)
+        setAddVisitForm(lis2)
+        // setPatientsDec(decrypt)
         console.log("patient list Decrypted: "+ patientListDec)
         //SHOW Patients
         
@@ -102,9 +132,13 @@ function ViewPatients(){
             
             {showList && patientListDec.map((patient,key) => {
             return (
-                <div key={patient}>
-                <PatientCard patient={JSON.parse(patient)} key={key}/>
+                <div key={patient.patid}>
+                <PatientCard patient={patient.data} patid ={patient.patid}  key={key}/>
+                {/* <button type="button" onClick={verifyMessage} className="btn btn-primary">
+                Verify
+                </button> */}
                 </div>
+                
             )
             }
             )}

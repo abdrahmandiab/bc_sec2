@@ -11,10 +11,19 @@ const Navbar = ({ title, icon }) => {
       </h1>
       <ul>
         <li>
-          <Link to='/'>View Patient</Link>
+          <Link to='/'>View Patients</Link>
         </li>
         <li>
           <Link to='/addpatient'>Add Patient</Link>
+        </li>
+        <li>
+          <Link to='/view-visits'>View Visits</Link>
+        </li>
+        <li>
+          <Link to='/add-visits'>Add Visit</Link>
+        </li>
+        <li>
+          <Link to='/verify'>Verify</Link>
         </li>
         <li>
           <Link to='/about'>About</Link>

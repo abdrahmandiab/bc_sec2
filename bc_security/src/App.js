@@ -8,6 +8,7 @@ import ViewPatients from './components/pages/ViewPatients';
 import AddVisit from './components/pages/AddVisit';
 import ViewVisits from './components/pages/ViewVisits';
 import About from './components/pages/About';
+import Verify from './components/pages/VerifyRecord';
 const App = () => {
   return (
     <Router>
@@ -19,6 +20,7 @@ const App = () => {
             <Route exact path='/addpatient' element={<AddPatient />} />
             <Route exact path='/view-visits' element={<ViewVisits />} />
             <Route exact path='/add-visits' element={<AddVisit />} />
+            <Route exact path='/Verify' element={<AddVisit />} />
             <Route exact path='/about' element={<About />} />
           </Routes>
         </div>
