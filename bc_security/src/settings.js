@@ -1,1 +1,1 @@
-export const settings = "0x516B27d47d6b3974da2BE16170BE28Fe6754B700"
+export const settings = '0xbE3E2813AD2ef077e9AD622cdF3b8A9c94738920';
