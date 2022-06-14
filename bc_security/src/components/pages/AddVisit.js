@@ -75,7 +75,7 @@ function AddVisit() {
     // console.log("encrypted data: " + encrypted.toString());
     // console.log("signed data: " + signed);
     console.log('address under: '+ address.toLowerCase())
-    await contractman.methods.addVisit(address,encrypted,signed).send({from: address}); //FOR WRITING
+    await contractman.methods.addVisit(patId,address,encrypted,signed).send({from: address}); //FOR WRITING
     console.log("Visit added!");
     console.log("visits before: " + num_visits);
 
@@ -121,6 +121,15 @@ function AddVisit() {
               />
             </div>
             <div className="mb-3">
+              <label className="form-label">Patient Complaint:</label>
+              <input
+                className="form-control"
+                name="reason"
+                value={visitReason}
+                onChange={(value) => setVisitReason(value.target.value)}
+              />
+            </div>
+            <div className="mb-3">
               <label className="form-label">Diagnosis:</label>
               <input
                 className="form-control"
@@ -139,6 +148,15 @@ function AddVisit() {
               />
             </div>
             <div className="mb-3">
+              <label className="form-label">Referals:</label>
+              <input
+                className="form-control"
+                name="referals"
+                value={referals}
+                onChange={(value) => setReferals(value.target.value)}
+              />
+            </div>
+            <div className="mb-3">
               <label className="form-label">Blood Pressure:</label>
               <input
                 className="form-control"
@@ -148,12 +166,12 @@ function AddVisit() {
               />
             </div>
             <div className="mb-3">
-              <label className="form-label">Referals:</label>
+              <label className="form-label">Temperature:</label>
               <input
                 className="form-control"
-                name="referals"
-                value={referals}
-                onChange={(value) => setReferals(value.target.value)}
+                name="temp"
+                value={temperature}
+                onChange={(value) => setTemperature(value.target.value)}
               />
             </div>
             <div className="mb-3">

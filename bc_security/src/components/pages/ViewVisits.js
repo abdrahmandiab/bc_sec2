@@ -37,17 +37,18 @@ function ViewVisits(){
         const w3 = new Web3(Web3.givenProvider || "http://localhost:7545");
         const contractman = new w3.eth.Contract(abi, contractAddr);
         const num_visits = await contractman.methods.visitCount().call(); // FOR READING
-        console.log(num_visits)
-        console.log(myAddr)
+        console.log("numnum: " + num_visits)
+        console.log("addr: "+myAddr)
        
         const myVis = await contractman.methods.getMyVisits(myAddr).call()
         setMyVisitos(myVis)
+        console.log("myVis:"+ myVis)
         console.log("myVisitos: "+ myVisitos)
         console.log("number of visits: " + num_visits)
-        for (let i=1; i<=myVisitos.length; i=i+1){
-          console.log(i)
+        for (let i=1; i<=num_visits; i=i+1){
+          // console.log(i)
             const visit = await contractman.methods.getVisitById(myVisitos[i-1]).call();
-            console.log(visit)
+            // console.log(visit)
             if(!visitList.includes(visit)){
             await setVisits(oldarray =>  [...oldarray, visit])}
         }
@@ -64,11 +65,18 @@ function ViewVisits(){
         user: username,
         password: password,
         data: pack 
-        }).then((response) =>{return response.data.decrypted})
+        }).then((response) =>{return response.data.decrypted}).catch(function (error) {
+          // handle error
+          console.log(error);
+          setVisitsDec([])
+          setLoading(false)
+          return [];
+        })
         // console.log("decrypted data:"+ JSON.parse(decrypt[0]).age)
         const  lis= []
         const lis2 = []
-        for (let i=1; i<=myVisitos.length; i=i+1){
+        if(!decrypt== []){
+          for (let i=1; i<=decrypt.length; i=i+1){
             if(!lis.includes({data: JSON.parse(decrypt[i-1]), visid: myVisitos[i-1]})){
             lis.push({data: JSON.parse(decrypt[i-1]), visid: myVisitos[i-1]}) 
             lis2.push(false)}
@@ -76,6 +84,10 @@ function ViewVisits(){
             else{
                 console.log("else:"+  JSON.parse(decrypt[i-1])+  myVisitos[i-1])
             }
+          }
+        }
+        else{
+          console.log("ERROR IN DECRYPTION")
         }
 
         setVisitsDec(lis)
